@@ -24,6 +24,8 @@ public class Estado implements Serializable {
     @Column(name = "sigla")
     private String sigla;
 
+	public Object service;
+
     
     public Estado() {
       super();

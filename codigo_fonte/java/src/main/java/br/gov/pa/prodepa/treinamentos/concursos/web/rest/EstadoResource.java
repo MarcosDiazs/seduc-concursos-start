@@ -22,6 +22,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import br.gov.pa.prodepa.treinamentos.concursos.model.Estado;
+import br.gov.pa.prodepa.treinamentos.concursos.service.EstadoService;
 
 /**
  * REST controller for managing Estado.
@@ -32,6 +33,9 @@ import br.gov.pa.prodepa.treinamentos.concursos.model.Estado;
 public class EstadoResource {
 
     private final Logger log = LoggerFactory.getLogger(EstadoResource.class);
+    
+    @Inject
+    private EstadoService  service;
         
     /**
      * POST  /estados : Create a new estado.
@@ -44,6 +48,7 @@ public class EstadoResource {
     @Path("/")
     public Response create(Estado estado) throws URISyntaxException {
         log.debug("REST request to save Estado : {}", estado);
+        Estado  estado = service.create(estado);
         return Response.created(new URI("/estados/" + estado.getId())).build();
     }
     
@@ -63,6 +68,7 @@ public class EstadoResource {
     @Path("/")
     public Response update(Estado estado) throws URISyntaxException {
         log.debug("REST request to update Estado : {}", estado);
+        Estado estado= estado.service.update(estado);
         return Response.ok().entity(estado).build();
     }
 
@@ -77,6 +83,7 @@ public class EstadoResource {
     @Path("/")
     public Response getAll() throws URISyntaxException {
         log.debug("REST request to get a page of Estados");
+        es
         
         List<Estado> lista = Arrays.asList(new Estado(1L, "Pará", "PA"), new Estado(2L, "Maranhão", "MA"));
         
@@ -103,6 +110,7 @@ public class EstadoResource {
     @Path("/{id}")
     public Response getOne(@PathParam("id") Long id) {
         log.debug("REST request to get Estado : {}", id);
+        Estado estado = service.findOne(id);
         
         Estado estado = new Estado(1L, "Pará", "PA");
         
@@ -123,6 +131,7 @@ public class EstadoResource {
     @Path("/{id}")
     public Response delete(@PathParam("id") Long id) {
         log.debug("REST request to delete Estado : {}", id);
+        service.delete(id);
         
         return Response.ok().entity("{\"message\":\"O registro foi removido.\"}").build();
     }
